@@ -17,27 +17,26 @@ import java.util.List;
  */
 public class ValidatorUtils {
 
+	/**
+	 * 一次全部获取数据校验的结果
+	 *
+	 * @param bindingResult
+	 * @return
+	 */
+	public static List<ValidatorResult> getValidatorResult(BindingResult bindingResult) {
 
-    /**
-     * 一次全部获取数据校验的结果
-     *
-     * @param bindingResult
-     * @return
-     */
-    public static  List<ValidatorResult> getValidatorResult(BindingResult bindingResult) {
+		List<ObjectError> allErrors = bindingResult.getAllErrors();
+		System.out.println("dd");
+		List<ValidatorResult> results = new ArrayList<>();
 
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
+		for (ObjectError error : allErrors) {
 
-        List<ValidatorResult> results = new ArrayList<>();
+			// String className = error.getObjectName(); // 获取类名称
+			String field = ((FieldError) error).getField(); // 获取字段名称
+			String message = error.getDefaultMessage(); // 获取提示信息
 
-        for (ObjectError error : allErrors) {
-
-            //String className = error.getObjectName(); // 获取类名称
-            String field = ((FieldError) error).getField(); // 获取字段名称
-            String message = error.getDefaultMessage(); //获取提示信息
-
-            results.add(new ValidatorResult(field, message));
-        }
-        return results;
-    }
+			results.add(new ValidatorResult(field, message));
+		}
+		return results;
+	}
 }
